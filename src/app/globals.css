@@ -12,6 +12,26 @@
   --font-mono: var(--font-roboto-mono);
 }
 
+@theme {
+  --animate-gradient: gradient 12s ease-in-out infinite;
+
+  @keyframes gradient {
+    0%,
+    100% {
+      background-position: 0 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+}
+
+.gradient-bg {
+  background: radial-gradient(ellipse farthest-corner at 0 0, #103490 0, #43047a, #a0a4f6, #72136b, #23d5ab 100%);
+  background-size: 200% 100%;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
