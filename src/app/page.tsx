@@ -9,7 +9,7 @@ export default function Home() {
         <Confetti n={20}/>
         <Image
           className="rounded-lg shadow-2xl/100 z-1"
-          src="/loading-page.jpeg"
+          src="/loading-page.jpg"
           alt="Happy couple holding hands"
           width={2560}
           height={1440}
