@@ -6,6 +6,7 @@
     animation: fall 3.5s ease-in infinite;
     opacity: 0.8;
     border-radius: 2px;
+    z-index: -1;
 }
 
 @keyframes fall {
