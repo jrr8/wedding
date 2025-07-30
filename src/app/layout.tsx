@@ -1,35 +1,33 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
+import { Delius_Swash_Caps, Delius, Cherry_Bomb_One } from "next/font/google";
 import "./globals.css";
+import ScrollGradient from "@/components/scroll_gradient";
 
-const roboto = Roboto({
-  variable: "--font-roboto-sans",
-  weight: ["400", "500", "600"],
+const deliusSwashCaps = Delius_Swash_Caps({
   subsets: ["latin"],
+  weight: "400",
+  variable: "--font-delius-swash-caps",
 });
 
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  weight: ["400", "500", "600"],
+const deliusRegular = Delius({
   subsets: ["latin"],
+  weight: "400",
+  variable: "--font-delius",
 });
 
 export const metadata: Metadata = {
   title: "Georgia + Riley 🥳",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body
-        className={`${roboto.variable} ${robotoMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <body className={`${deliusRegular.variable} ${deliusSwashCaps.variable}`}>
+        <div className="gradient-bg min-h-full">
+          <ScrollGradient />
+          {children}
+          </div>
+          </body>
     </html>
   );
 }

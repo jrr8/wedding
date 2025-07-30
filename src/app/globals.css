@@ -5,31 +5,15 @@
   --foreground: #171717;
 }
 
+.font-delius-swash {
+  font-family: var(--font-delius-swash-caps);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-roboto-sans);
+  --font-sans: var(--font-delius-swash-caps);
   --font-mono: var(--font-roboto-mono);
-}
-
-@theme {
-  --animate-gradient: gradient 12s ease-in-out infinite;
-
-  @keyframes gradient {
-    0%,
-    100% {
-      background-position: 0 50%;
-    }
-
-    50% {
-      background-position: 100% 50%;
-    }
-  }
-}
-
-.gradient-bg {
-  background: radial-gradient(ellipse farthest-corner at 0 0, #103490 0, #43047a, #a0a4f6, #72136b, #23d5ab 100%);
-  background-size: 200% 100%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -38,9 +22,26 @@
     --foreground: #ededed;
   }
 }
+html {
+  overflow-y: scroll; /* always show vertical scrollbar */
+}
+
+html, body {
+  overflow-x: hidden;
+}
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: var(--font-delius);
+  background: radial-gradient(
+    circle at var(--x, 50%) var(--y, 50%),
+    #ff8b7a 10%,
+    white 2%,
+    #ff84f3 28%,
+    #310d5a 100%
+  );
+  background-repeat: no-repeat;
+  background-attachment: fixed;  /* Keeps it steady */
+  background-size: 100% 100%;    /* Forces it to fill entire page */
+  color: black;
 }
