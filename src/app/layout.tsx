@@ -1,17 +1,16 @@
 import type { Metadata } from "next";
 import { Delius_Swash_Caps, Delius } from "next/font/google";
 import "./globals.css";
-import ScrollGradient from "@/components/scroll_gradient";
 
-const deliusSwashCaps = Delius_Swash_Caps({
-  subsets: ["latin"],
+const deliusSwash = Delius_Swash_Caps({
   weight: "400",
-  variable: "--font-delius-swash-caps",
+  subsets: ["latin"],
+  variable: "--font-delius-swash",
 });
 
 const deliusRegular = Delius({
-  subsets: ["latin"],
   weight: "400",
+  subsets: ["latin"],
   variable: "--font-delius",
 });
 
@@ -25,13 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${deliusRegular.variable} ${deliusSwashCaps.variable}`}>
-        <div className="gradient-bg min-h-full">
-          <ScrollGradient />
-          {children}
-        </div>
-      </body>
+    <html
+      lang="en"
+      className={`${deliusRegular.variable} ${deliusSwash.variable} antialiased`}
+    >
+      <body>{children}</body>
     </html>
   );
 }

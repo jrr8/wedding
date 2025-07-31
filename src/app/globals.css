@@ -5,15 +5,12 @@
   --foreground: #171717;
 }
 
-.font-delius-swash {
-  font-family: var(--font-delius-swash-caps);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-delius-swash-caps);
-  --font-mono: var(--font-roboto-mono);
+  --color-purple-900: #310d5a;
+  --font-sans: var(--font-delius);
+  --font-swash: var(--font-delius-swash);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,26 +19,27 @@
     --foreground: #ededed;
   }
 }
-html {
-  overflow-y: scroll; /* always show vertical scrollbar */
-}
 
-html, body {
+html,
+body {
+  min-height: 100%;
   overflow-x: hidden;
 }
 
 body {
-  margin: 0;
-  font-family: var(--font-delius);
-  background: radial-gradient(
-    circle at var(--x, 50%) var(--y, 50%),
-    #ff8b7a 10%,
-    white 2%,
-    #ff84f3 28%,
-    #310d5a 100%
-  );
-  background-repeat: no-repeat;
-  background-attachment: fixed;  /* Keeps it steady */
-  background-size: 100% 100%;    /* Forces it to fill entire page */
-  color: black;
+  color: #0a0a0a;
+  background: radial-gradient(circle at var(--x, 0%) var(--y, 25%),
+      #ff8b7a 10%,
+      white 2%,
+      #ff84f3 28%,
+      #310d5a 100%);
+  background-attachment: fixed;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: default;
 }
