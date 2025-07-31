@@ -1,6 +1,19 @@
 import styles from "./confetti.module.css";
 import { Fragment, useMemo } from "react";
 
+const colors = [
+  "#ff0",
+  "#0f0",
+  "#f0f",
+  "#0ff",
+  "#ff6347",
+  "#00ced1",
+  "#ffa500",
+  "#adff2f",
+  "#ff69b4",
+  "#1e90ff",
+];
+
 export const Confetti = ({ n = 10 }: { n?: number }) => {
   const delays = useMemo(
     () =>
@@ -10,21 +23,8 @@ export const Confetti = ({ n = 10 }: { n?: number }) => {
     [n]
   );
 
-  const colors = [
-    "#ff0",
-    "#0f0",
-    "#f0f",
-    "#0ff",
-    "#ff6347",
-    "#00ced1",
-    "#ffa500",
-    "#adff2f",
-    "#ff69b4",
-    "#1e90ff",
-  ];
-
   return (
-    <div className="contents">
+    <div className={styles.confettiContainer}>
       {Array.from({ length: n }).map((_, i) => {
         const left = `${1 + (i * 98) / (n - 1)}%`;
         const backgroundColor = colors[i % colors.length];

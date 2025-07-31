@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Mono } from "next/font/google";
+import { Delius_Swash_Caps, Delius } from "next/font/google";
 import "./globals.css";
 
-const roboto = Roboto({
-  variable: "--font-roboto-sans",
-  weight: ["400", "500", "600"],
+const deliusSwash = Delius_Swash_Caps({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-delius-swash",
 });
 
-const robotoMono = Roboto_Mono({
-  variable: "--font-roboto-mono",
-  weight: ["400", "500", "600"],
+const deliusRegular = Delius({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-delius",
 });
 
 export const metadata: Metadata = {
@@ -20,16 +20,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body
-        className={`${roboto.variable} ${robotoMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${deliusRegular.variable} ${deliusSwash.variable} antialiased`}
+    >
+      <body>{children}</body>
     </html>
   );
 }
