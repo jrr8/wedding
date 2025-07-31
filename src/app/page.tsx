@@ -32,18 +32,22 @@ export default function Home() {
             We&apos;re getting married!
           </h2>
           <p className="text-2xl flex items-center justify-center gap-3">
-            <img
-            src="/pink-disco.gif"
-            alt="sparkle"
-            className="w-8 h-8"
+            <Image
+              src="/pink-disco.gif"
+              alt="sparkle"
+              width={263}
+              height={247}
+              className="w-8 h-8"
             />
             <strong>May 30, 2026</strong>
-            <img
-            src="/pink-disco.gif"
-            alt="sparkle"
-            className="w-8 h-8"
+            <Image
+              src="/pink-disco.gif"
+              alt="sparkle"
+              width={263}
+              height={247}
+              className="w-8 h-8"
             />
-            </p>
+          </p>
           <button
             onClick={() => setIsModalOpen(true)}
             className="mt-4 px-6 py-3 bg-[#310d5a] text-white text-xl rounded-lg shadow hover:bg-pink-700 transition"
@@ -54,31 +58,40 @@ export default function Home() {
       </main>
       {/* Wedding Weekend Section */}
       <section className="flex flex-col gap-6 items-center text-center max-w-[850px]">
-        <h3 className="text-2xl font-delius-swash font-bold">The Wedding Weekend</h3>
+        <h3 className="text-2xl font-delius-swash font-bold">
+          The Wedding Weekend
+        </h3>
 
         <p className="text-lg max-w-prose bg-white/80 p-4 rounded-lg shadow">
-          <strong className="text-xl font-delius-swash font-bold">Welcome Party</strong><br />
+          <strong className="text-xl font-delius-swash font-bold">
+            Welcome Party
+          </strong>
+          <br />
           May 29, 2026 <br></br>
           5-8pm <br></br>
           Near the venue (exact location TBD)
-          <br></br><br></br>
-
-          <strong className="text-xl font-delius-swash font-bold">Ceremony</strong><br />
+          <br></br>
+          <br></br>
+          <strong className="text-xl font-delius-swash font-bold">
+            Ceremony
+          </strong>
+          <br />
           May 30, 2026 <br></br>
           Afternoon (exact time TBD) <br></br>
           Kismet House<br></br>
           1467 US-44 Clintondale, NY 12515<br></br>
           <br></br>
-          
-          The ceremony will be at the pond, about 5-10 minutes from the parking lot. Comfortable footwear is advised! 
-          <br></br><br></br>
-
-          <strong className="text-xl font-delius-swash font-bold">Reception & After Party</strong><br />
-          
-          After the ceremony, we'll have cocktails, dinner and dancing until 10pm. 
-          For those who want to keep the party going, the Kismet barn is sound proofed! Karaoke?
-
-          
+          The ceremony will be at the pond, about 5-10 minutes from the parking
+          lot. Comfortable footwear is advised!
+          <br></br>
+          <br></br>
+          <strong className="text-xl font-delius-swash font-bold">
+            Reception & After Party
+          </strong>
+          <br />
+          After the ceremony, we&apos;ll have cocktails, dinner and dancing
+          until 10pm. For those who want to keep the party going, the Kismet
+          barn is sound proofed! Karaoke?
         </p>
 
         <Image
@@ -90,7 +103,6 @@ export default function Home() {
           priority
           className="rounded-lg shadow-lg"
         />
-        
       </section>
       <RSVPModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>

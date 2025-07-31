@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+type Preference = "text" | "email" | "both" | "";
+
 type Props = {
   isOpen: boolean;
   onClose: () => void;
@@ -9,9 +11,7 @@ type Props = {
 
 export default function RSVPModal({ isOpen, onClose }: Props) {
   const [name, setName] = useState("");
-  const [preference, setPreference] = useState<"text" | "email" | "both" | "">(
-    ""
-  );
+  const [preference, setPreference] = useState<Preference>("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
@@ -60,9 +60,8 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
         <h2 className="text-xl font-bold">Share Contact Details</h2>
         <p className="text-sm">
-          We’re collecting contact info for important
-          updates (like if there’s a rain delay). 
-          RSVPs will be open once the official invitations go out. 
+          We’re collecting contact info for important updates (like if there’s a
+          rain delay). RSVPs will be open once the official invitations go out.
         </p>
 
         <form onSubmit={handleSubmit} className="space-y-3">
@@ -87,7 +86,9 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
                     name="preference"
                     value={option}
                     checked={preference === option}
-                    onChange={() => setPreference(option as any)}
+                    onChange={() =>
+                      setPreference(option.toLowerCase() as Preference)
+                    }
                     required
                   />
                   {option}
@@ -96,14 +97,14 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
             </div>
           </div>
 
-          {preference === "Text" || preference === "Both" ? (
+          {preference === "text" || preference === "both" ? (
             <>
               <input
                 type="tel"
                 placeholder="Phone number"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
-                required={preference !== "Email"}
+                required
                 className="w-full border rounded p-2"
               />
               {errors.phone && (
@@ -112,14 +113,14 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
             </>
           ) : null}
 
-          {preference === "Email" || preference === "Both" ? (
+          {preference === "email" || preference === "both" ? (
             <>
               <input
                 type="email"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required={preference !== "Text"}
+                required
                 className="w-full border rounded p-2"
               />
               {errors.email && (

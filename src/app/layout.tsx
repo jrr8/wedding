@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Delius_Swash_Caps, Delius, Cherry_Bomb_One } from "next/font/google";
+import { Delius_Swash_Caps, Delius } from "next/font/google";
 import "./globals.css";
 import ScrollGradient from "@/components/scroll_gradient";
 
@@ -19,15 +19,19 @@ export const metadata: Metadata = {
   title: "Georgia + Riley 🥳",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={`${deliusRegular.variable} ${deliusSwashCaps.variable}`}>
         <div className="gradient-bg min-h-full">
           <ScrollGradient />
           {children}
-          </div>
-          </body>
+        </div>
+      </body>
     </html>
   );
 }
