@@ -97,11 +97,11 @@ export default function Home() {
         <Image
           src="/wedding-weekend.jpg"
           alt="Venue Map"
-          width={600}
-          height={100}
+          width={692}
+          height={722}
           quality={50}
           priority
-          className="rounded-lg shadow-lg"
+          className="rounded-lg shadow-lg w-[600]"
         />
       </section>
       <RSVPModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
