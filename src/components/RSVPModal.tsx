@@ -79,13 +79,13 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
               Do you prefer to get updates via email or text?
             </p>
             <div className="flex gap-4">
-              {["Text", "Email", "Both"].map((option) => (
+              {["Text", "Email", "Both"].map((option: string) => (
                 <label key={option} className="flex items-center gap-2">
                   <input
                     type="radio"
                     name="preference"
                     value={option}
-                    checked={preference === option}
+                    checked={preference === option.toLowerCase()}
                     onChange={() =>
                       setPreference(option.toLowerCase() as Preference)
                     }
