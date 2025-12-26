@@ -2,6 +2,9 @@
 
 import { SheetRow } from "@/utils/sheets";
 import { useEffect, useState } from "react";
+import { EnterNameForm } from "./EnterNameForm";
+import { RSVPForm } from "./RSVPForm";
+import { EditRSVPForm } from "./EditRSVPForm";
 
 type Preference = "text" | "email" | "both" | "";
 
@@ -9,14 +12,14 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   currentUser: SheetRow | null;
-currentUserParty: SheetRow[];
+  currentUserParty: SheetRow[];
 };
 
 export default function RSVPModal({
   isOpen,
   onClose: onCloseProp,
   currentUser,
-currentUserParty,
+  currentUserParty,
 }: Props) {
   const [name, setName] = useState(currentUser?.name ?? "");
   const [preference, setPreference] = useState<Preference>("");
@@ -89,6 +92,8 @@ currentUserParty,
     onClose();
   };
 
+  const hasSubmittedRsvp = typeof currentUser?.rsvpCeremony === "boolean";
+
   return (
     <div
       className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
@@ -98,94 +103,43 @@ currentUserParty,
         className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
+        <h2 className="text-xl font-bold">
+          {!currentUser
+            ? "Enter your name"
+            : !hasSubmittedRsvp
+            ? "RSVP"
+            : "Edit your RSVP"}
+        </h2>
         <p className="text-sm">
-          We’re collecting contact info for important updates (like if there’s a
-          rain delay). RSVPs will be open once the official invitations go out.
+          {!currentUser ? (
+            <>
+              Enter your name to RSVP.
+              <br />
+              If there are multiple people in your party, you will be able to
+              respond for each person.
+            </>
+          ) : !hasSubmittedRsvp ? (
+            <>
+              Please RSVP by March 30th.
+              <br />
+              You can edit your response any time before then.
+            </>
+          ) : (
+            <>
+              Here&apos;s what we have you marked down for.
+              <br />
+              You can edit your response until March 30th.
+            </>
+          )}
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input
-            type="text"
-            placeholder="Your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            className="w-full border rounded p-2"
-          />
-
-          <div>
-            <p className="font-medium text-sm mb-1">
-              Do you prefer to get updates via email or text?
-            </p>
-            <div className="flex gap-4">
-              {["Text", "Email", "Both"].map((option: string) => (
-                <label key={option} className="flex items-center gap-2">
-                  <input
-                    type="radio"
-                    name="preference"
-                    value={option}
-                    checked={preference === option.toLowerCase()}
-                    onChange={() =>
-                      setPreference(option.toLowerCase() as Preference)
-                    }
-                    required
-                  />
-                  {option}
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {preference === "text" || preference === "both" ? (
-            <>
-              <input
-                type="tel"
-                formNoValidate
-                placeholder="Phone number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full border rounded p-2"
-              />
-              {errors.phone && (
-                <p className="text-red-600 text-sm">{errors.phone}</p>
-              )}
-            </>
-          ) : null}
-
-          {preference === "email" || preference === "both" ? (
-            <>
-              <input
-                type="email"
-                formNoValidate
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border rounded p-2"
-              />
-              {errors.email && (
-                <p className="text-red-600 text-sm">{errors.email}</p>
-              )}
-            </>
-          ) : null}
-
-          <div className="flex justify-end gap-2 mt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              disabled={isLoading}
-              className="px-4 py-2 border rounded"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="px-4 py-2 bg-blue-600 text-white rounded disabled:bg-gray-400"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+        {!currentUser ? (
+          <EnterNameForm />
+        ) : !hasSubmittedRsvp ? (
+          <RSVPForm />
+        ) : (
+          <EditRSVPForm />
+        )}
       </div>
     </div>
   );
