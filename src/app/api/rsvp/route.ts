@@ -12,10 +12,11 @@ type Sheets = sheets_v4.Sheets;
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const name = req.nextUrl.searchParams.get("name")?.trim().toLowerCase() ?? "";
   const cookieStore = await cookies();
-  const currentUserId = cookieStore.get("user")?.value
+  const currentUserId = cookieStore.get("user")?.value;
+
+  const sheets = getSheets();
 
   try {
-    const sheets = getSheets();
     const sheet = await getSheet(sheets);
 
     let currentUserRow = currentUserId
@@ -42,16 +43,16 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ closestName });
   } catch (err) {
     console.error(err);
+    await logError(sheets, name, err);
     return NextResponse.json({ error: "Failed to get RSVP" }, { status: 500 });
   }
 }
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   const data = await req.json();
+  const sheets = getSheets();
 
   try {
-    const sheets = getSheets();
-
     // Append new row
     await sheets.spreadsheets.values.append({
       spreadsheetId,
@@ -67,6 +68,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error(err);
+    await logError(sheets, data.name, err);
     return NextResponse.json({ error: "Failed to save RSVP" }, { status: 500 });
   }
 }
@@ -85,12 +87,32 @@ const sheetRange = (range: string = ""): string => {
   return range ? `${spreadsheetName}!${range}` : spreadsheetName;
 };
 
-const logError = async (sheets: Sheets, error: string): Promise<void> => {
+const logError = async (
+  sheets: Sheets,
+  userName: string,
+  error: unknown
+): Promise<void> => {
+  let errorMessage = "";
+  if (error instanceof Error) {
+    const stack = error.stack ?? "";
+    for (const line of stack.split("\n")) {
+      if (line.includes("wedding/node_modules")) break;
+      errorMessage += line + "\n";
+    }
+    if (!errorMessage) {
+      errorMessage = error.message;
+    }
+  } else {
+    errorMessage = String(error);
+  }
+
   await sheets.spreadsheets.values.append({
     spreadsheetId,
-    range: sheetRange(errorSheetName),
+    range: errorSheetName,
     valueInputOption: "USER_ENTERED",
-    requestBody: { values: [[Date.now(), error]] },
+    requestBody: {
+      values: [[new Date().toISOString(), userName, errorMessage]],
+    },
   });
 };
 
