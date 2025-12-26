@@ -1,7 +1,7 @@
 "use client";
 
 import { SheetRow } from "@/utils/sheets";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Preference = "text" | "email" | "both" | "";
 
@@ -24,6 +24,17 @@ currentUserParty,
   const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState<{ email?: string; phone?: string }>({});
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -79,9 +90,14 @@ currentUserParty,
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4">
-        <h2 className="text-xl font-bold">Share Contact Details</h2>
+    <div
+      className="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full space-y-4"
+        onClick={(e) => e.stopPropagation()}
+      >
         <p className="text-sm">
           We’re collecting contact info for important updates (like if there’s a
           rain delay). RSVPs will be open once the official invitations go out.
