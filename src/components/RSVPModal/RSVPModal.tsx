@@ -9,12 +9,14 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   currentUser: SheetRow | null;
+currentUserParty: SheetRow[];
 };
 
 export default function RSVPModal({
   isOpen,
   onClose: onCloseProp,
   currentUser,
+currentUserParty,
 }: Props) {
   const [name, setName] = useState(currentUser?.name ?? "");
   const [preference, setPreference] = useState<Preference>("");

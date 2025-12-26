@@ -2,10 +2,11 @@ import { Confetti } from "@/components/confetti/confetti";
 import Image from "next/image";
 import RSVPModalButton from "@/components/RSVPModal/RSVPModalButton";
 import ScrollGradient from "@/components/scroll-gradient";
-import { getCurrentUser } from "@/utils/currentUser";
+import { getCurrentUser, getCurrentUserParty } from "@/utils/currentUser";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();
+  const currentUserParty = await getCurrentUserParty();
 
   return (
     <div className="grid grid-rows-1 items-start md:items-center justify-items-center min-h-full p-2 pb-20 gap-16 sm:p-10 md:p-20">
@@ -42,7 +43,7 @@ export default async function Home() {
               className="w-8 h-8"
             />
           </p>
-          <RSVPModalButton currentUser={currentUser} />
+          <RSVPModalButton currentUser={currentUser} currentUserParty={currentUserParty} />
         </div>
       </main>
       {/* Wedding Weekend Section */}

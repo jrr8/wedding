@@ -20,3 +20,13 @@ export const getCurrentUser = async (): Promise<SheetRow | null> => {
     return null;
   }
 };
+
+export const getCurrentUserParty = async (): Promise<SheetRow[]> => {
+  const currentUser = await getCurrentUser();
+  if (!currentUser) return [];
+  if (!currentUser.partyId) return [currentUser];
+
+  const sheets = getSheets();
+  const sheet = await getSheet(sheets);
+  return sheet.filter((row) => row.partyId === currentUser.partyId);
+};
