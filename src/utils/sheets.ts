@@ -49,7 +49,16 @@ export const logError = async (
   });
 };
 
+const TWENTY_SECONDS = 1000 * 20;
+let _sheet_cache_at = 0;
+let _cachedSheet: SheetRow[] | null = null;
+
 export const getSheet = async (sheets: Sheets): Promise<SheetRow[]> => {
+  const now = Date.now();
+  if (_cachedSheet && now - _sheet_cache_at < TWENTY_SECONDS) {
+    return _cachedSheet;
+  }
+
   const {
     data: { values },
   } = await sheets.spreadsheets.values.get({
@@ -58,7 +67,7 @@ export const getSheet = async (sheets: Sheets): Promise<SheetRow[]> => {
   });
   if (!values?.length) return [];
 
-  return values.slice(1).map((row) => ({
+  const result = values.slice(1).map((row) => ({
     id: row[0],
     partyId: row[1] || null,
     name: row[2],
@@ -66,6 +75,11 @@ export const getSheet = async (sheets: Sheets): Promise<SheetRow[]> => {
     rsvpWelcome: row[4] ? row[4] === "TRUE" : null,
     dietaryRestrictions: row[5] || null,
   }));
+
+  _cachedSheet = result;
+  _sheet_cache_at = now;
+
+  return result;
 };
 
 export const appendRows = async (
