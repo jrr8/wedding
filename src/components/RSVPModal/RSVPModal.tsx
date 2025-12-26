@@ -1,5 +1,6 @@
 "use client";
 
+import { SheetRow } from "@/utils/sheets";
 import { useState } from "react";
 
 type Preference = "text" | "email" | "both" | "";
@@ -7,10 +8,15 @@ type Preference = "text" | "email" | "both" | "";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  currentUser: SheetRow | null;
 };
 
-export default function RSVPModal({ isOpen, onClose: onCloseProp }: Props) {
-  const [name, setName] = useState("");
+export default function RSVPModal({
+  isOpen,
+  onClose: onCloseProp,
+  currentUser,
+}: Props) {
+  const [name, setName] = useState(currentUser?.name ?? "");
   const [preference, setPreference] = useState<Preference>("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -20,7 +26,7 @@ export default function RSVPModal({ isOpen, onClose: onCloseProp }: Props) {
   if (!isOpen) return null;
 
   const reset = () => {
-    setName("");
+    setName(currentUser?.name ?? "");
     setPreference("");
     setEmail("");
     setPhone("");
