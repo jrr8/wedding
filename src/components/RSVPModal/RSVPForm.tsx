@@ -1,5 +1,5 @@
 import { SheetRow } from "@/utils/sheets";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useMemo } from "react";
 
 type Props = {
   onClose: () => void;
@@ -16,10 +16,14 @@ export const RSVPForm = ({
   const [currentUserParty, setCurrentUserParty] =
     useState(currentUserPartyProp);
 
-  const hasSubmittedRsvp = currentUserPartyProp.every(
-    (party) =>
-      typeof party.rsvpCeremony === "boolean" &&
-      typeof party.rsvpWelcome === "boolean"
+  const hasSubmittedRsvp = useMemo(
+    () =>
+      currentUserParty.every(
+        (party) =>
+          typeof party.rsvpCeremony === "boolean" &&
+          typeof party.rsvpWelcome === "boolean"
+      ),
+    []
   );
 
   const handleRsvpChange = (idx: number, update: Partial<SheetRow>) => {
@@ -145,11 +149,11 @@ export const RSVPForm = ({
             <>
               Here&apos;s what we have you marked down for.
               <br />
-              You can edit your response until March 30th.
+              You can edit your response until April 30th.
             </>
           ) : (
             <>
-              Please RSVP by March 30th.
+              Please RSVP by April 30th.
               <br />
               You can edit your response any time before then.
             </>
