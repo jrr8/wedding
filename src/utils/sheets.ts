@@ -1,4 +1,5 @@
 import { google, sheets_v4 } from "googleapis";
+import { cache } from "react";
 
 const spreadsheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
 const spreadsheetName = process.env.GOOGLE_SHEETS_SHEET_NAME || "RSVP";
@@ -6,14 +7,21 @@ const errorSheetName = "RSVP-errors";
 
 type Sheets = sheets_v4.Sheets;
 
-export const getSheets = (): Sheets => {
+let _sheetsClient: Sheets | null = null;
+
+const _getSheetsClient = (): Sheets => {
+  if (_sheetsClient) {
+    return _sheetsClient;
+  }
+
   const auth = new google.auth.JWT({
     email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
     key: process.env.GOOGLE_SHEETS_PRIVATE_KEY,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
-  return google.sheets({ version: "v4", auth });
+  _sheetsClient = google.sheets({ version: "v4", auth });
+  return _sheetsClient;
 };
 
 const sheetRange = (range: string = ""): string => {
@@ -21,7 +29,6 @@ const sheetRange = (range: string = ""): string => {
 };
 
 export const logError = async (
-  sheets: Sheets,
   userName: string,
   error: unknown
 ): Promise<void> => {
@@ -39,7 +46,8 @@ export const logError = async (
     errorMessage = String(error);
   }
 
-  await sheets.spreadsheets.values.append({
+  const sheetsClient = _getSheetsClient();
+  await sheetsClient.spreadsheets.values.append({
     spreadsheetId,
     range: errorSheetName,
     valueInputOption: "USER_ENTERED",
@@ -49,19 +57,11 @@ export const logError = async (
   });
 };
 
-const TWENTY_SECONDS = 1000 * 20;
-let _sheet_cache_at = 0;
-let _cachedSheet: SheetRow[] | null = null;
-
-export const getSheet = async (sheets: Sheets): Promise<SheetRow[]> => {
-  const now = Date.now();
-  if (_cachedSheet && now - _sheet_cache_at < TWENTY_SECONDS) {
-    return _cachedSheet;
-  }
-
+export const getSheet = cache(async (): Promise<SheetRow[]> => {
+  const sheetsClient = _getSheetsClient();
   const {
     data: { values },
-  } = await sheets.spreadsheets.values.get({
+  } = await sheetsClient.spreadsheets.values.get({
     spreadsheetId,
     range: sheetRange(),
   });
@@ -76,18 +76,15 @@ export const getSheet = async (sheets: Sheets): Promise<SheetRow[]> => {
     dietaryRestrictions: row[5] || null,
   }));
 
-  _cachedSheet = result;
-  _sheet_cache_at = now;
-
   return result;
-};
+});
 
 export const appendRows = async (
-  sheets: Sheets,
   range: string,
   values: string[][]
 ): Promise<void> => {
-  await sheets.spreadsheets.values.append({
+  const sheetsClient = _getSheetsClient();
+  await sheetsClient.spreadsheets.values.append({
     spreadsheetId,
     range: sheetRange(range),
     valueInputOption: "USER_ENTERED",

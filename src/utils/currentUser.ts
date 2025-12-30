@@ -1,14 +1,13 @@
 import { cookies } from "next/headers";
-import { getSheets, getSheet, SheetRow } from "@/utils/sheets";
+import { getSheet, SheetRow } from "@/utils/sheets";
 
 export const getCurrentUser = async (): Promise<SheetRow | null> => {
   const cookieStore = await cookies();
   const currentUserId = cookieStore.get("user")?.value;
 
-  const sheets = getSheets();
 
   try {
-    const sheet = await getSheet(sheets);
+    const sheet = await getSheet();
 
     const currentUserRow = currentUserId
       ? sheet.find((row) => row.id === currentUserId)
@@ -26,7 +25,6 @@ export const getCurrentUserParty = async (): Promise<SheetRow[]> => {
   if (!currentUser) return [];
   if (!currentUser.partyId) return [currentUser];
 
-  const sheets = getSheets();
-  const sheet = await getSheet(sheets);
+  const sheet = await getSheet();
   return sheet.filter((row) => row.partyId === currentUser.partyId);
 };
