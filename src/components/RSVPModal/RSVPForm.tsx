@@ -16,6 +16,12 @@ export const RSVPForm = ({
   const [currentUserParty, setCurrentUserParty] =
     useState(currentUserPartyProp);
 
+  const hasSubmittedRsvp = currentUserPartyProp.every(
+    (party) =>
+      typeof party.rsvpCeremony === "boolean" &&
+      typeof party.rsvpWelcome === "boolean"
+  );
+
   const handleRsvpChange = (idx: number, update: Partial<SheetRow>) => {
     const newRsvpState = [...currentUserParty];
     Object.assign(newRsvpState[idx], update);
@@ -127,15 +133,27 @@ export const RSVPForm = ({
   return (
     <>
       <h2 className="text-xl font-bold">
-        {step === "rsvp" ? "RSVP" : "Dietary restrictions"}
+        {step === "rsvp"
+          ? hasSubmittedRsvp
+            ? "Edit your RSVP"
+            : "RSVP"
+          : "Dietary restrictions"}
       </h2>
       <p className="text-sm">
         {step === "rsvp" ? (
-          <>
-            Please RSVP by March 30th.
-            <br />
-            You can edit your response any time before then.
-          </>
+          hasSubmittedRsvp ? (
+            <>
+              Here&apos;s what we have you marked down for.
+              <br />
+              You can edit your response until March 30th.
+            </>
+          ) : (
+            <>
+              Please RSVP by March 30th.
+              <br />
+              You can edit your response any time before then.
+            </>
+          )
         ) : (
           <>Please share any food allergies or dietary restrictions.</>
         )}

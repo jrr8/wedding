@@ -4,7 +4,6 @@ import { SheetRow } from "@/utils/sheets";
 import { useEffect, useState } from "react";
 import { EnterNameForm } from "./EnterNameForm";
 import { RSVPForm } from "./RSVPForm";
-import { EditRSVPForm } from "./EditRSVPForm";
 
 type Props = {
   isOpen: boolean;
@@ -13,7 +12,7 @@ type Props = {
   currentUserParty: SheetRow[];
 };
 
-type Step = "enterName" | "rsvp" | "editRsvp";
+type Step = "enterName" | "rsvp";
 
 export default function RSVPModal({
   isOpen,
@@ -25,15 +24,7 @@ export default function RSVPModal({
   const [currentUserParty, setCurrentUserParty] =
     useState(currentUserPartyProp);
 
-  const hasSubmittedRsvp = currentUserParty.every(
-    (party) =>
-      typeof party.rsvpCeremony === "boolean" &&
-      typeof party.rsvpWelcome === "boolean"
-  );
-
-  const [step, setStep] = useState<Step>(
-    !currentUser ? "enterName" : !hasSubmittedRsvp ? "rsvp" : "editRsvp"
-  );
+  const [step, setStep] = useState<Step>(!currentUser ? "enterName" : "rsvp");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -66,14 +57,8 @@ export default function RSVPModal({
               setStep("rsvp");
             }}
           />
-        ) : step === "rsvp" ? (
-          <RSVPForm onClose={onClose} currentUserParty={currentUserParty} />
         ) : (
-          <EditRSVPForm
-          // onClose={onClose}
-          //   currentUser={currentUser}
-          //   currentUserParty={currentUserParty}
-          />
+          <RSVPForm onClose={onClose} currentUserParty={currentUserParty} />
         )}
       </div>
     </div>
