@@ -79,17 +79,24 @@ export const getSheet = cache(async (): Promise<SheetRow[]> => {
   return result;
 });
 
-export const appendRows = async (
-  range: string,
-  values: string[][]
+export const updateRows = async (
+  columnRange: string,
+  updates: { index: number; values: Array<string | boolean | null> }[]
 ): Promise<void> => {
   const sheetsClient = _getSheetsClient();
-  await sheetsClient.spreadsheets.values.append({
+  const [startCol, endCol] = columnRange.split(":");
+  const rowRange = (index: number) =>
+    // Plus 2: one for 0/1 index, one for skipping header row
+    `${startCol}${index + 2}:${endCol}${index + 2}`;
+
+  await sheetsClient.spreadsheets.values.batchUpdate({
     spreadsheetId,
-    range: sheetRange(range),
-    valueInputOption: "USER_ENTERED",
     requestBody: {
-      values,
+      valueInputOption: "USER_ENTERED",
+      data: updates.map(({ index, values }) => ({
+        range: sheetRange(rowRange(index)),
+        values: [values],
+      })),
     },
   });
 };
