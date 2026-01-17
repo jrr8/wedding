@@ -1,5 +1,6 @@
 import { SheetRow } from "@/utils/sheets";
 import { Fragment, useState, useMemo } from "react";
+import { showToast } from "../toast/toast";
 
 type Props = {
   onClose: () => void;
@@ -54,6 +55,7 @@ export const RSVPForm = ({
 
     if (resp.success) {
       onClose();
+      showToast({ type: "success", message: "Your RSVP has been submitted! 🎉" });
       return;
     }
 
