@@ -57,15 +57,22 @@ export default async function Home() {
           <br />
           May 29, 2026 <br></br>
           5-8pm <br></br>
-          Near the venue (exact location TBD)
+          Kismet House
+          <br></br>
+          <br></br>
+          Food, yard games, and camp fire. <br />
+          Dress casually, this is a comfortable backyard party.
           <br></br>
           <br></br>
           <strong className="text-xl font-swash font-bold">Ceremony</strong>
           <br />
           May 30, 2026 <br></br>
-          Afternoon (exact time TBD) <br></br>
+          4:30-5pm
+          <br></br>
           Kismet House<br></br>
           1467 US-44 Clintondale, NY 12515<br></br>
+          <br></br>
+          The ceremony starts at 4:30, so please arrive earlier to settle in.
           <br></br>
           The ceremony will be at the pond, about 5-10 minutes from the parking
           lot. Comfortable footwear is advised!

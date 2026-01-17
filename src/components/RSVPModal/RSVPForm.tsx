@@ -161,7 +161,7 @@ export const RSVPForm = ({
             </>
           )
         ) : (
-          <>Please share any food allergies or dietary restrictions.</>
+          <>Please share food allergies or dietary restrictions, if any.</>
         )}
       </p>
 
