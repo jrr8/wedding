@@ -3,7 +3,7 @@ import { cache } from "react";
 
 const spreadsheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
 const spreadsheetName = process.env.GOOGLE_SHEETS_SHEET_NAME || "RSVP";
-const errorSheetName = "RSVP-errors";
+const debugSheetName = "RSVP-debug";
 
 type Sheets = sheets_v4.Sheets;
 
@@ -28,31 +28,36 @@ const sheetRange = (range: string = ""): string => {
   return range ? `${spreadsheetName}!${range}` : spreadsheetName;
 };
 
-export const logError = async (
+export const logDebug = async (
   userName: string,
-  error: unknown
+  message: unknown
 ): Promise<void> => {
-  let errorMessage = "";
-  if (error instanceof Error) {
-    const stack = error.stack ?? "";
-    for (const line of stack.split("\n")) {
-      if (line.includes("wedding/node_modules")) break;
-      errorMessage += line + "\n";
+  const messages = Array.isArray(message) ? message : [message];
+
+  const debugMessages = messages.map((message) => {
+    let debugMessage = "";
+    if (message instanceof Error) {
+      const stack = message.stack ?? "";
+      for (const line of stack.split("\n")) {
+        if (line.includes("wedding/node_modules")) break;
+        debugMessage += line + "\n";
+      }
+      if (!debugMessage) {
+        debugMessage = message.message;
+      }
+    } else {
+      debugMessage = String(message);
     }
-    if (!errorMessage) {
-      errorMessage = error.message;
-    }
-  } else {
-    errorMessage = String(error);
-  }
+    return debugMessage;
+  });
 
   const sheetsClient = _getSheetsClient();
   await sheetsClient.spreadsheets.values.append({
     spreadsheetId,
-    range: errorSheetName,
+    range: debugSheetName,
     valueInputOption: "USER_ENTERED",
     requestBody: {
-      values: [[new Date().toISOString(), userName, errorMessage]],
+      values: debugMessages.map((message) => [new Date().toISOString(), userName, message]),
     },
   });
 };
@@ -77,6 +82,11 @@ export const getSheet = cache(async (): Promise<SheetRow[]> => {
   }));
 
   return result;
+});
+
+export const getSheetMap = cache(async (): Promise<Map<string, { row: SheetRow; index: number }>> => {
+  const sheet = await getSheet();
+  return new Map(sheet.map((row, index) => [row.id, { row, index }]));
 });
 
 export const updateRows = async (
