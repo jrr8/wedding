@@ -43,7 +43,7 @@ export const EnterNameForm = ({ onClose, onUserFound }: Props) => {
       <form onSubmit={handleSubmit} className="space-y-3">
         <input
           type="text"
-          placeholder="Your name"
+          placeholder="First and last name"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
