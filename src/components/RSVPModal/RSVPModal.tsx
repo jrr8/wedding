@@ -1,5 +1,6 @@
 "use client";
 
+import { clearUserCookie } from "@/app/actions";
 import { SheetRow } from "@/utils/sheets";
 import { useEffect, useState } from "react";
 import { EnterNameForm } from "./EnterNameForm";
@@ -58,7 +59,16 @@ export default function RSVPModal({
             }}
           />
         ) : (
-          <RSVPForm onClose={onClose} currentUserParty={currentUserParty} />
+          <RSVPForm
+            onClose={onClose}
+            currentUserParty={currentUserParty}
+            onClearUser={async () => {
+              await clearUserCookie();
+              setCurrentUser(null);
+              setCurrentUserParty([]);
+              setStep("enterName");
+            }}
+          />
         )}
       </div>
     </div>

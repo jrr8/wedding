@@ -5,11 +5,13 @@ import { showToast } from "../toast/toast";
 type Props = {
   onClose: () => void;
   currentUserParty: SheetRow[];
+  onClearUser?: () => void;
 };
 
 export const RSVPForm = ({
   onClose,
   currentUserParty: currentUserPartyProp,
+  onClearUser,
 }: Props) => {
   const [error, setError] = useState("");
   const [step, setStep] = useState<"rsvp" | "dietary">("rsvp");
@@ -138,6 +140,15 @@ export const RSVPForm = ({
 
   return (
     <>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={onClearUser}
+          className="text-xs text-gray-500 hover:text-gray-700 underline cursor-pointer"
+        >
+          Wrong name?
+        </button>
+      </div>
       <h2 className="text-xl font-bold">
         {step === "rsvp"
           ? hasSubmittedRsvp
