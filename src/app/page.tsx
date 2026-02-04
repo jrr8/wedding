@@ -34,6 +34,7 @@ export default async function Home() {
               width={263}
               height={247}
               className="w-8 h-8"
+              unoptimized
             />
             <strong>May 30, 2026</strong>
             <Image
@@ -42,6 +43,7 @@ export default async function Home() {
               width={263}
               height={247}
               className="w-8 h-8"
+              unoptimized
             />
           </p>
           <RSVPModalButton currentUser={currentUser} currentUserParty={currentUserParty} />
