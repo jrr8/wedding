@@ -1,5 +1,4 @@
 import { google, sheets_v4 } from "googleapis";
-import { cache } from "react";
 
 const spreadsheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
 const spreadsheetName = process.env.GOOGLE_SHEETS_SHEET_NAME || "RSVP";
@@ -8,6 +7,9 @@ const debugSheetName = "RSVP-debug";
 type Sheets = sheets_v4.Sheets;
 
 let _sheetsClient: Sheets | null = null;
+
+// In-memory cache for sheet data - clears on redeploy
+let _sheetCache: SheetRow[] | null = null;
 
 const _getSheetsClient = (): Sheets => {
   if (_sheetsClient) {
@@ -62,7 +64,7 @@ export const logDebug = async (
   });
 };
 
-export const getSheet = cache(async (): Promise<SheetRow[]> => {
+const _fetchSheetFromAPI = async (): Promise<SheetRow[]> => {
   const sheetsClient = _getSheetsClient();
   const {
     data: { values },
@@ -72,7 +74,7 @@ export const getSheet = cache(async (): Promise<SheetRow[]> => {
   });
   if (!values?.length) return [];
 
-  const result = values.slice(1).map((row) => ({
+  return values.slice(1).map((row) => ({
     id: row[0],
     partyId: row[1] || null,
     name: row[2],
@@ -80,14 +82,19 @@ export const getSheet = cache(async (): Promise<SheetRow[]> => {
     rsvpWelcome: row[4] ? row[4] === "TRUE" : null,
     dietaryRestrictions: row[5] || null,
   }));
+};
 
-  return result;
-});
+export const getSheet = async (): Promise<SheetRow[]> => {
+  if (_sheetCache === null) {
+    _sheetCache = await _fetchSheetFromAPI();
+  }
+  return _sheetCache;
+};
 
-export const getSheetMap = cache(async (): Promise<Map<string, { row: SheetRow; index: number }>> => {
+export const getSheetMap = async (): Promise<Map<string, { row: SheetRow; index: number }>> => {
   const sheet = await getSheet();
   return new Map(sheet.map((row, index) => [row.id, { row, index }]));
-});
+};
 
 export const updateRows = async (
   columnRange: string,
@@ -109,6 +116,17 @@ export const updateRows = async (
       })),
     },
   });
+
+  // Update in-memory cache after successful write
+  if (_sheetCache && columnRange === "D:F") {
+    for (const { index, values } of updates) {
+      if (_sheetCache[index]) {
+        _sheetCache[index].rsvpCeremony = values[0] as boolean | null;
+        _sheetCache[index].rsvpWelcome = values[1] as boolean | null;
+        _sheetCache[index].dietaryRestrictions = values[2] as string | null;
+      }
+    }
+  }
 };
 
 export type SheetRow = {
