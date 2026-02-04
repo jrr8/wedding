@@ -1,4 +1,5 @@
 import { google, sheets_v4 } from "googleapis";
+import { unstable_cache, revalidateTag } from "next/cache";
 
 const spreadsheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
 const spreadsheetName = process.env.GOOGLE_SHEETS_SHEET_NAME || "RSVP";
@@ -8,8 +9,7 @@ type Sheets = sheets_v4.Sheets;
 
 let _sheetsClient: Sheets | null = null;
 
-// In-memory cache for sheet data - clears on redeploy
-let _sheetCache: SheetRow[] | null = null;
+const SHEET_CACHE_TAG = "google-sheet-data";
 
 const _getSheetsClient = (): Sheets => {
   if (_sheetsClient) {
@@ -65,6 +65,7 @@ export const logDebug = async (
 };
 
 const _fetchSheetFromAPI = async (): Promise<SheetRow[]> => {
+  console.log("Fetching sheet from Google Sheets API...");
   const sheetsClient = _getSheetsClient();
   const {
     data: { values },
@@ -84,12 +85,13 @@ const _fetchSheetFromAPI = async (): Promise<SheetRow[]> => {
   }));
 };
 
-export const getSheet = async (): Promise<SheetRow[]> => {
-  if (_sheetCache === null) {
-    _sheetCache = await _fetchSheetFromAPI();
-  }
-  return _sheetCache;
-};
+// Cache sheet data across the entire Next.js system (Server Components + API Routes)
+// Cache indefinitely (revalidate: false) - only invalidated manually via revalidateTag
+export const getSheet = unstable_cache(
+  _fetchSheetFromAPI,
+  [SHEET_CACHE_TAG],
+  { tags: [SHEET_CACHE_TAG], revalidate: false }
+);
 
 export const getSheetMap = async (): Promise<Map<string, { row: SheetRow; index: number }>> => {
   const sheet = await getSheet();
@@ -117,16 +119,12 @@ export const updateRows = async (
     },
   });
 
-  // Update in-memory cache after successful write
-  if (_sheetCache && columnRange === "D:F") {
-    for (const { index, values } of updates) {
-      if (_sheetCache[index]) {
-        _sheetCache[index].rsvpCeremony = values[0] as boolean | null;
-        _sheetCache[index].rsvpWelcome = values[1] as boolean | null;
-        _sheetCache[index].dietaryRestrictions = values[2] as string | null;
-      }
-    }
-  }
+  revalidateTag(SHEET_CACHE_TAG);
+
+  // Eagerly re-fetch, but don't wait for the result
+  getSheet().then(() => {
+    console.log("Sheet re-fetched");
+  });
 };
 
 export type SheetRow = {
