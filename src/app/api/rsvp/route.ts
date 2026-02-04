@@ -94,11 +94,13 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       return s;
     }).filter(Boolean);
 
+    const actions = [updateRows("D:F", updates)];
+
     if (overwrites.length > 0) {
-      await logDebug(currentUser.name, overwrites);
+      actions.push(logDebug(currentUser.name, overwrites));
     }
 
-    await updateRows("D:F", updates);
+    await Promise.all(actions);
 
     return NextResponse.json({ success: true });
   } catch (err) {
