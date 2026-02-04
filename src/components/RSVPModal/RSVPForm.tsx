@@ -151,11 +151,11 @@ export const RSVPForm = ({
             <>
               Here&apos;s what we have you marked down for.
               <br />
-              You can edit your response until April 30th.
+              You can edit your response until April 15th.
             </>
           ) : (
             <>
-              Please RSVP by April 30th.
+              Please RSVP by April 15th.
               <br />
               You can edit your response any time before then.
             </>
