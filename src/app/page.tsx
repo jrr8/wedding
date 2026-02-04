@@ -6,7 +6,7 @@ import { getCurrentUser, getCurrentUserParty } from "@/utils/currentUser";
 
 export default async function Home() {
   const currentUser = await getCurrentUser();
-  const currentUserParty = await getCurrentUserParty();
+  const currentUserParty = await getCurrentUserParty(currentUser);
 
   return (
     <div className="grid grid-rows-1 items-start md:items-center justify-items-center min-h-full p-2 pb-20 gap-16 sm:p-10 md:p-20">

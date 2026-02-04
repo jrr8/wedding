@@ -5,23 +5,21 @@ export const getCurrentUser = async (): Promise<SheetRow | null> => {
   const cookieStore = await cookies();
   const currentUserId = cookieStore.get("user")?.value;
 
+  // No cookie = no user, skip the sheet lookup entirely
+  if (!currentUserId) return null;
 
   try {
     const sheet = await getSheet();
-
-    const currentUserRow = currentUserId
-      ? sheet.find((row) => row.id === currentUserId)
-      : null;
-
-    return currentUserRow ?? null;
+    return sheet.find((row) => row.id === currentUserId) ?? null;
   } catch (err) {
     console.error(err);
     return null;
   }
 };
 
-export const getCurrentUserParty = async (): Promise<SheetRow[]> => {
-  const currentUser = await getCurrentUser();
+export const getCurrentUserParty = async (
+  currentUser: SheetRow | null
+): Promise<SheetRow[]> => {
   if (!currentUser) return [];
   if (!currentUser.partyId) return [currentUser];
 

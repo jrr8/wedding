@@ -6,7 +6,7 @@ import { getCurrentUser, getCurrentUserParty } from "@/utils/currentUser";
 
 export async function GET(req: NextRequest): Promise<NextResponse> {
   let currentUser = await getCurrentUser();
-  let currentUserParty = await getCurrentUserParty();
+  let currentUserParty = await getCurrentUserParty(currentUser);
 
   if (currentUser) {
     return NextResponse.json({
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     }
 
     cookieStore.set("user", currentUser.id);
-    currentUserParty = await getCurrentUserParty();
+    currentUserParty = await getCurrentUserParty(currentUser);
     return NextResponse.json({ currentUser, currentUserParty });
   } catch (err) {
     console.error(err);
