@@ -1,5 +1,6 @@
 import { Confetti } from "@/components/confetti/confetti";
 import Image from "next/image";
+import Link from "next/link";
 import RSVPModalButton from "@/components/RSVPModal/RSVPModalButton";
 import ScrollGradient from "@/components/scroll-gradient";
 import { getCurrentUser, getCurrentUserParty } from "@/utils/currentUser";
@@ -50,7 +51,7 @@ export default async function Home() {
       <section className="flex flex-col gap-6 items-center text-center max-w-[850px] mx-2 sm:mx-0">
         <h3 className="text-2xl font-swash font-bold">The Wedding Weekend</h3>
 
-        <p className="text-lg max-w-prose bg-white/80 p-4 rounded-lg shadow">
+        <p className="text-lg max-w-prose bg-emerald-50/90 p-4 rounded-lg shadow">
           <strong className="text-xl font-swash font-bold">
             Welcome Party
           </strong>
@@ -87,15 +88,12 @@ export default async function Home() {
           barn is sound proofed! Karaoke?
         </p>
 
-        <Image
-          src="/wedding-weekend.jpg"
-          alt="Venue Map"
-          width={692}
-          height={722}
-          quality={50}
-          priority
-          className="rounded-lg shadow-lg w-[600]"
-        />
+        <Link
+          href="/travel"
+          className="text-xl font-swash font-bold text-foreground hover:underline underline-offset-2"
+        >
+          Travel & Accommodations →
+        </Link>
       </section>
     </div>
   );
