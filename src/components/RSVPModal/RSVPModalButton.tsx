@@ -2,17 +2,8 @@
 
 import { useState } from "react";
 import RSVPModal from "./RSVPModal";
-import { SheetRow } from "@/utils/sheets";
 
-type Props = {
-  currentUser: SheetRow | null;
-  currentUserParty: SheetRow[];
-};
-
-export default function RSVPModalButton({
-  currentUser,
-  currentUserParty,
-}: Props) {
+export default function RSVPModalButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -26,8 +17,6 @@ export default function RSVPModalButton({
       <RSVPModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        currentUser={currentUser}
-        currentUserParty={currentUserParty}
       />
     </>
   );

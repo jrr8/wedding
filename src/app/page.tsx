@@ -3,12 +3,8 @@ import Image from "next/image";
 import Link from "next/link";
 import RSVPModalButton from "@/components/RSVPModal/RSVPModalButton";
 import ScrollGradient from "@/components/scroll-gradient";
-import { getCurrentUser, getCurrentUserParty } from "@/utils/currentUser";
 
-export default async function Home() {
-  const currentUser = await getCurrentUser();
-  const currentUserParty = await getCurrentUserParty(currentUser);
-
+export default function Home() {
   return (
     <div className="grid grid-rows-1 items-start md:items-center justify-items-center min-h-full p-2 pb-20 gap-16 sm:p-10 md:p-20">
       <ScrollGradient />
@@ -46,7 +42,7 @@ export default async function Home() {
               unoptimized
             />
           </p>
-          <RSVPModalButton currentUser={currentUser} currentUserParty={currentUserParty} />
+          <RSVPModalButton />
         </div>
       </main>
       {/* Wedding Weekend Section */}

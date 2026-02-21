@@ -9,23 +9,29 @@ import { RSVPForm } from "./RSVPForm";
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  currentUser: SheetRow | null;
-  currentUserParty: SheetRow[];
 };
 
-type Step = "enterName" | "rsvp";
+type Step = "loading" | "enterName" | "rsvp";
 
-export default function RSVPModal({
-  isOpen,
-  onClose,
-  currentUser: currentUserProp,
-  currentUserParty: currentUserPartyProp,
-}: Props) {
-  const [currentUser, setCurrentUser] = useState(currentUserProp);
-  const [currentUserParty, setCurrentUserParty] =
-    useState(currentUserPartyProp);
+export default function RSVPModal({ isOpen, onClose }: Props) {
+  const [currentUserParty, setCurrentUserParty] = useState<SheetRow[]>([]);
+  const [step, setStep] = useState<Step>("loading");
 
-  const [step, setStep] = useState<Step>(!currentUser ? "enterName" : "rsvp");
+  useEffect(() => {
+    setStep("loading");
+
+    fetch("/api/rsvp")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.currentUserParty) {
+          setCurrentUserParty(data.currentUserParty);
+          setStep("rsvp");
+        } else {
+          setStep("enterName");
+        }
+      })
+      .catch(() => setStep("enterName"));
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -49,11 +55,14 @@ export default function RSVPModal({
         className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
-        {step === "enterName" ? (
+        {step === "loading" ? (
+          <div className="flex justify-center py-8">
+            <div className="animate-spin h-8 w-8 border-4 border-purple-900 border-t-transparent rounded-full" />
+          </div>
+        ) : step === "enterName" ? (
           <EnterNameForm
             onClose={onClose}
-            onUserFound={(user, party) => {
-              setCurrentUser(user);
+            onUserFound={(_user, party) => {
               setCurrentUserParty(party);
               setStep("rsvp");
             }}
@@ -64,7 +73,6 @@ export default function RSVPModal({
             currentUserParty={currentUserParty}
             onClearUser={async () => {
               await clearUserCookie();
-              setCurrentUser(null);
               setCurrentUserParty([]);
               setStep("enterName");
             }}

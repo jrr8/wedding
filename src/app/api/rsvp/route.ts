@@ -16,6 +16,10 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   }
 
   const name = req.nextUrl.searchParams.get("name")?.trim().toLowerCase() ?? "";
+  if (!name) {
+    return NextResponse.json({ currentUser: null, currentUserParty: [] });
+  }
+
   const cookieStore = await cookies();
 
   try {
