@@ -3,7 +3,7 @@ import { useState } from "react";
 
 type Props = {
   onClose: () => void;
-  onUserFound: (user: SheetRow, party: SheetRow[]) => void;
+  onUserFound: (party: SheetRow[]) => void;
 };
 
 export const EnterNameForm = ({ onClose, onUserFound }: Props) => {
@@ -23,8 +23,8 @@ export const EnterNameForm = ({ onClose, onUserFound }: Props) => {
     );
     setIsLoading(false);
 
-    if (body.currentUser && body.currentUserParty) {
-      onUserFound(body.currentUser, body.currentUserParty);
+    if (Array.isArray(body.currentUserParty) && body.currentUserParty.length > 0) {
+      onUserFound(body.currentUserParty);
     } else {
       setError(
         body.error ?? "There was an unknown error. Please try again later."

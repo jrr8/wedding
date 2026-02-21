@@ -8,16 +8,15 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
   let currentUser = await getCurrentUser();
   let currentUserParty = await getCurrentUserParty(currentUser);
 
-  if (currentUser) {
+  if (currentUserParty.length > 0) {
     return NextResponse.json({
-      currentUser,
       currentUserParty,
     });
   }
 
   const name = req.nextUrl.searchParams.get("name")?.trim().toLowerCase() ?? "";
   if (!name) {
-    return NextResponse.json({ currentUser: null, currentUserParty: [] });
+    return NextResponse.json({ currentUserParty: null });
   }
 
   const cookieStore = await cookies();
@@ -42,7 +41,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 
     cookieStore.set("user", currentUser.id);
     currentUserParty = await getCurrentUserParty(currentUser);
-    return NextResponse.json({ currentUser, currentUserParty });
+    return NextResponse.json({ currentUserParty });
   } catch (err) {
     console.error(err);
     await logDebug(name, err);

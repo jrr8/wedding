@@ -23,8 +23,9 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
     fetch("/api/rsvp")
       .then((res) => res.json())
       .then((data) => {
-        if (data.currentUserParty) {
-          setCurrentUserParty(data.currentUserParty);
+        const party = data.currentUserParty as SheetRow[] | null;
+        if (party && party.length > 0) {
+          setCurrentUserParty(party);
           setStep("rsvp");
         } else {
           setStep("enterName");
@@ -62,7 +63,7 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
         ) : step === "enterName" ? (
           <EnterNameForm
             onClose={onClose}
-            onUserFound={(_user, party) => {
+            onUserFound={(party) => {
               setCurrentUserParty(party);
               setStep("rsvp");
             }}
