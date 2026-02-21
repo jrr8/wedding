@@ -14,10 +14,11 @@ export default function Home() {
           className="rounded-lg shadow-2xl/100"
           src="/loading-page.jpg"
           alt="Happy couple holding hands"
-          width={2560}
-          height={1440}
+          width={2290}
+          height={1278}
+          sizes="(max-width: 640px) 100vw, 850px"
           quality={50}
-          priority
+          preload
         />
         <div className="text-center flex flex-col gap-4">
           <h2 className="text-4xl font-swash font-bold">
