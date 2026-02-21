@@ -1,9 +1,9 @@
 "use client";
 
 import { clearUserCookie } from "@/app/actions";
-import { SheetRow } from "@/utils/sheets";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { EnterNameForm } from "./EnterNameForm";
+import { useRSVP } from "./RSVPContext";
 import { RSVPForm } from "./RSVPForm";
 
 type Props = {
@@ -11,28 +11,8 @@ type Props = {
   onClose: () => void;
 };
 
-type Step = "loading" | "enterName" | "rsvp";
-
 export default function RSVPModal({ isOpen, onClose }: Props) {
-  const [currentUserParty, setCurrentUserParty] = useState<SheetRow[]>([]);
-  const [step, setStep] = useState<Step>("loading");
-
-  useEffect(() => {
-    setStep("loading");
-
-    fetch("/api/rsvp")
-      .then((res) => res.json())
-      .then((data) => {
-        const party = data.currentUserParty as SheetRow[] | null;
-        if (party && party.length > 0) {
-          setCurrentUserParty(party);
-          setStep("rsvp");
-        } else {
-          setStep("enterName");
-        }
-      })
-      .catch(() => setStep("enterName"));
-  }, []);
+  const { currentUserParty, setCurrentUserParty, isLoading } = useRSVP();
 
   useEffect(() => {
     if (!isOpen) return;
@@ -43,9 +23,15 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
+
+  const step = isLoading
+    ? "loading"
+    : currentUserParty.length > 0
+      ? "rsvp"
+      : "enterName";
 
   return (
     <div
@@ -65,7 +51,6 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
             onClose={onClose}
             onUserFound={(party) => {
               setCurrentUserParty(party);
-              setStep("rsvp");
             }}
           />
         ) : (
@@ -75,7 +60,6 @@ export default function RSVPModal({ isOpen, onClose }: Props) {
             onClearUser={async () => {
               await clearUserCookie();
               setCurrentUserParty([]);
-              setStep("enterName");
             }}
           />
         )}

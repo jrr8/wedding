@@ -1,3 +1,4 @@
+import { RSVPProvider } from "@/components/RSVPModal/RSVPContext";
 import type { Metadata, Viewport } from "next";
 import { Delius_Swash_Caps, Delius } from "next/font/google";
 import "./globals.css";
@@ -35,7 +36,9 @@ export default function RootLayout({
       lang="en"
       className={`${deliusRegular.variable} ${deliusSwash.variable} antialiased`}
     >
-      <body>{children}</body>
+      <body>
+        <RSVPProvider>{children}</RSVPProvider>
+      </body>
     </html>
   );
 }
