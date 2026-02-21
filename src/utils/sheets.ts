@@ -1,5 +1,5 @@
 import { google, sheets_v4 } from "googleapis";
-import { unstable_cache, revalidateTag } from "next/cache";
+import { cacheTag, revalidateTag } from "next/cache";
 
 const spreadsheetId = process.env.GOOGLE_SHEETS_SHEET_ID;
 const spreadsheetName = process.env.GOOGLE_SHEETS_SHEET_NAME || "RSVP";
@@ -85,13 +85,11 @@ const _fetchSheetFromAPI = async (): Promise<SheetRow[]> => {
   }));
 };
 
-// Cache sheet data across the entire Next.js system (Server Components + API Routes)
-// Cache indefinitely (revalidate: false) - only invalidated manually via revalidateTag
-export const getSheet = unstable_cache(
-  _fetchSheetFromAPI,
-  [SHEET_CACHE_TAG],
-  { tags: [SHEET_CACHE_TAG], revalidate: false }
-);
+export const getSheet = async (): Promise<SheetRow[]> => {
+  "use cache";
+  cacheTag(SHEET_CACHE_TAG);
+  return _fetchSheetFromAPI();
+}
 
 export const getSheetMap = async (): Promise<Map<string, { row: SheetRow; index: number }>> => {
   const sheet = await getSheet();
@@ -119,7 +117,7 @@ export const updateRows = async (
     },
   });
 
-  revalidateTag(SHEET_CACHE_TAG);
+  revalidateTag(SHEET_CACHE_TAG, "max");
 
   // Eagerly re-fetch, but don't wait for the result
   getSheet().then(() => {

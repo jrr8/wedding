@@ -1,5 +1,7 @@
+"use cache";
+
 import styles from "./confetti.module.css";
-import { Fragment, useMemo } from "react";
+import { Fragment } from "react";
 
 const colors = [
   "#ff0",
@@ -14,13 +16,9 @@ const colors = [
   "#1e90ff",
 ];
 
-export const Confetti = ({ n = 10 }: { n?: number }) => {
-  const delays = useMemo(
-    () =>
-      Array.from({ length: n }, (_, i) => (i * 2) / n).sort(() =>
-        Math.random() > 0.5 ? 1 : -1
-      ),
-    [n]
+export const Confetti = async ({ n = 10 }: { n?: number }) => {
+  const delays = Array.from({ length: n }, (_, i) => (i * 2) / n).sort(() =>
+    Math.random() > 0.5 ? 1 : -1,
   );
 
   return (
