@@ -7,12 +7,12 @@ export const metadata = {
 
 export default function TravelPage() {
   return (
-    <div className="min-h-full p-6 pb-20 sm:p-10 md:p-20">
+    <div className="min-h-full p-6 pb-20 sm:p-10 md:p-20 text-gray-100">
       <div className="max-w-[850px] mx-auto flex flex-col gap-12">
         <div className="flex flex-col gap-2">
           <Link
             href="/"
-            className="text-sm text-foreground/70 hover:text-foreground underline underline-offset-2 w-fit"
+            className="text-sm text-foreground/70 hover:text-foreground underline underline-offset-2 w-fit visited:text-purple-300"
           >
             ← Back
           </Link>
@@ -22,7 +22,7 @@ export default function TravelPage() {
         </div>
 
         <section className="flex flex-col gap-4">
-          <div className="bg-white/80 p-6 rounded-lg shadow">
+          <div className="bg-white/90 text-gray-900 p-6 rounded-lg">
             <div className="text-lg">
               We appreciate that getting to Upstate New York can be logistically
               complicated, and we are grateful to you for making the journey! We
@@ -34,7 +34,7 @@ export default function TravelPage() {
 
         <section className="flex flex-col gap-4">
           <h2 className="text-2xl font-swash font-bold">Airports</h2>
-          <div className="bg-white/80 p-6 rounded-lg shadow">
+          <div className="bg-white/90 text-gray-900 p-6 rounded-lg">
             <ul className="list-disc list-outside ml-4 space-y-3 text-lg">
               <li>
                 <strong>Albany International (ALB)</strong>
@@ -67,7 +67,7 @@ export default function TravelPage() {
           <h2 className="text-2xl font-swash font-bold">
             Public Transportation
           </h2>
-          <div className="bg-white/80 p-6 rounded-lg text-lg shadow">
+          <div className="bg-white/90 text-gray-900 p-6 rounded-lg text-lg">
             <h3 className="font-semibold mb-2">Getting to Grand Central</h3>
             <ul className="list-disc list-outside ml-4 space-y-3 mb-6">
               <li>
@@ -135,7 +135,7 @@ export default function TravelPage() {
           <h2 className="text-2xl font-swash font-bold">
             Accommodations in the Area
           </h2>
-          <div className="bg-white/80 p-6 rounded-lg text-lg shadow">
+          <div className="bg-white/90 text-gray-900 p-6 rounded-lg text-lg">
             There are Airbnbs, traditional bed &amp; breakfasts, and these
             nearby hotels:
             <ul className="list-disc list-outside ml-4 space-y-3 mt-3">

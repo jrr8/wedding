@@ -6,94 +6,96 @@ import ScrollGradient from "@/components/scroll-gradient";
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-1 items-start md:items-center justify-items-center min-h-full p-2 pb-20 gap-16 sm:p-10 md:p-20">
-      <ScrollGradient />
-      <Confetti n={20} />
-      <main className="flex flex-col gap-[32px] items-center max-w-[850px] mt-2 sm:mt-4 md:mt-0 z-0">
-        <Image
-          className="rounded-lg shadow-2xl/100"
-          src="/loading-page.jpg"
-          alt="Happy couple holding hands"
-          width={2290}
-          height={1278}
-          sizes="(max-width: 640px) 100vw, 850px"
-          quality={50}
-          preload
-        />
-        <div className="text-center flex flex-col gap-4">
-          <h2 className="text-4xl font-swash font-bold">
-            We&apos;re getting married!
-          </h2>
-          <p className="text-2xl flex items-center justify-center gap-3">
-            <Image
-              src="/pink-disco.gif"
-              alt="sparkle"
-              width={263}
-              height={247}
-              className="w-8 h-8"
-              unoptimized
-            />
-            <strong>May 30, 2026</strong>
-            <Image
-              src="/pink-disco.gif"
-              alt="sparkle"
-              width={263}
-              height={247}
-              className="w-8 h-8"
-              unoptimized
-            />
-          </p>
-          <RSVPModalButton />
-        </div>
-      </main>
-      {/* Wedding Weekend Section */}
-      <section className="flex flex-col gap-6 items-center text-center max-w-[850px] mx-2 sm:mx-0">
-        <h3 className="text-2xl font-swash font-bold">The Wedding Weekend</h3>
-
-        <p className="text-lg max-w-prose bg-emerald-50/90 p-4 rounded-lg shadow">
-          <strong className="text-xl font-swash font-bold">
-            Welcome Party
-          </strong>
-          <br />
-          May 29, 2026 <br></br>
-          5-8pm <br></br>
-          Kismet House
-          <br></br>
-          <br></br>
-          Food, yard games, and camp fire. <br />
-          Dress casually, this is a comfortable backyard party.
-          <br></br>
-          <br></br>
-          <strong className="text-xl font-swash font-bold">Ceremony</strong>
-          <br />
-          May 30, 2026 <br></br>
-          4:30-5pm
-          <br></br>
-          Kismet House<br></br>
-          1467 US-44 Clintondale, NY 12515<br></br>
-          <br></br>
-          The ceremony starts at 4:30, so please arrive earlier to settle in.
-          <br></br>
-          The ceremony will be at the pond, about 5-10 minutes from the parking
-          lot. Comfortable footwear is advised!
-          <br></br>
-          <br></br>
-          <strong className="text-xl font-swash font-bold">
-            Reception & After Party
-          </strong>
-          <br />
-          After the ceremony, we&apos;ll have cocktails, dinner and dancing
-          until 10pm. For those who want to keep the party going, the Kismet
-          barn is sound proofed! Karaoke?
-        </p>
-
-        <Link
-          href="/travel"
-          className="text-xl font-swash font-bold text-foreground hover:underline underline-offset-2"
-        >
-          Travel & Accommodations →
-        </Link>
-      </section>
+    <div className="min-h-full min-w-full bg-fixed bg-[radial-gradient(circle_at_var(--x,0%)_var(--y,25%),#ff8b7a_10%,#fec6b0_2%,#ff84f3_28%,#310d5a_100%)]">
+      <div className="grid grid-rows-1 items-start md:items-center justify-items-center min-h-full p-2 pb-20 gap-12 sm:p-10 md:p-20">
+        <ScrollGradient />
+        <Confetti n={20} />
+        <main className="flex flex-col gap-[32px] items-center max-w-[850px] mt-2 sm:mt-4 md:mt-0 z-0">
+          <Image
+            className="rounded-lg shadow-2xl/100"
+            src="/loading-page.jpg"
+            alt="Happy couple holding hands"
+            width={2290}
+            height={1278}
+            sizes="(max-width: 640px) 100vw, 850px"
+            quality={50}
+            preload
+          />
+          <div className="text-center flex flex-col gap-4">
+            <h2 className="text-4xl font-swash font-bold">
+              We&apos;re getting married!
+            </h2>
+            <p className="text-2xl flex items-center justify-center gap-3">
+              <Image
+                src="/pink-disco.gif"
+                alt="sparkle"
+                width={263}
+                height={247}
+                className="w-8 h-8"
+                unoptimized
+              />
+              <strong>May 30, 2026</strong>
+              <Image
+                src="/pink-disco.gif"
+                alt="sparkle"
+                width={263}
+                height={247}
+                className="w-8 h-8"
+                unoptimized
+              />
+            </p>
+            <RSVPModalButton />
+          </div>
+        </main>
+        {/* Wedding Weekend Section */}
+        <section className="flex flex-col gap-6 items-center text-center max-w-[850px] mx-2 sm:mx-0 z-0">
+          <div className="text-lg max-w-prose bg-emerald-50/90 p-4 rounded-lg shadow">
+            <h3 className="text-2xl font-swash font-bold mb-6">The Wedding Weekend</h3>
+            <strong className="text-xl font-swash font-bold">
+              Welcome Party
+            </strong>
+            <br />
+            May 29, 2026 <br></br>
+            5-8pm <br></br>
+            Kismet House
+            <br></br>
+            <br></br>
+            Food, yard games, and camp fire. <br />
+            Dress casually, this is a comfortable backyard party.
+            <br></br>
+            <br></br>
+            <strong className="text-xl font-swash font-bold">Ceremony</strong>
+            <br />
+            May 30, 2026 <br></br>
+            4:30-5pm
+            <br></br>
+            Kismet House<br></br>
+            1467 US-44 Clintondale, NY 12515<br></br>
+            <br></br>
+            The ceremony starts at 4:30, so please arrive earlier to settle in.
+            <br></br>
+            The ceremony will be at the pond, about 5-10 minutes from the parking
+            lot. Comfortable footwear is advised!
+            <br></br>
+            <br></br>
+            <strong className="text-xl font-swash font-bold">
+              Reception & After Party
+            </strong>
+            <br />
+            After the ceremony, we&apos;ll have cocktails, dinner and dancing
+            until 10pm. For those who want to keep the party going, the Kismet
+            barn is sound proofed! Karaoke?
+          </div>
+          <div className="text-lg max-w-prose bg-emerald-50/90 p-4 rounded-lg shadow">
+            <Link
+              href="/travel"
+              className="text-xl font-swash font-bold hover:underline underline-offset-2"
+            >
+              Travel & Accommodations →
+            </Link>
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

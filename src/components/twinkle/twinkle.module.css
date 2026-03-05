@@ -1,0 +1,68 @@
+.twinkleContainer {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    background-image: linear-gradient(#1F2023, #424472);
+}
+
+.gradientA {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(40% 40% at 30% 110%, #927CFF 0%, rgba(142, 133, 190, 0.4) 43.23%, rgba(59, 61, 70, 0) 100%);
+}
+
+.gradientB {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(90% 50% at 80% 115%, #FFF38B 0%, rgba(180, 174, 113, 0.45) 38.02%, rgba(59, 61, 70, 0) 100%);
+}
+
+.star {
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.star1 {
+    animation: 3s ease 1s infinite alternate twinkle;
+}
+
+.star2 {
+    animation: 4s ease-in 0s infinite alternate twinkle;
+}
+
+.star3 {
+    animation: 3.5s ease-in-out 0.5s infinite alternate twinkle;
+}
+
+.star4 {
+    animation: 2.5s ease-out 1.5s infinite alternate twinkle;
+}
+
+.star5 {
+    animation: 4s linear 2s infinite alternate twinkle;
+}
+
+.star6 {
+    animation: 2.5s linear 1s infinite alternate twinkle;
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

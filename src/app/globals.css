@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@layer base, components, utilities;
 
 :root {
   --background: #ffffff;
@@ -28,22 +29,18 @@ body {
 
 body {
   color: #0a0a0a;
-  background: radial-gradient(circle at var(--x, 0%) var(--y, 25%),
-      #ff8b7a 10%,
-      #fec6b0 2%,
-      #ff84f3 28%,
-      #310d5a 100%);
-  background-attachment: fixed;
 }
 
-button {
-  cursor: pointer;
-}
+@layer base {
+  button {
+    cursor: pointer;
+  }
 
-button:disabled {
-  cursor: default;
-}
+  button:disabled {
+    cursor: default;
+  }
 
-a[href] {
-  @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600
+  a[href] {
+    @apply underline text-blue-600 hover:text-blue-800 visited:text-purple-600
+  }
 }
