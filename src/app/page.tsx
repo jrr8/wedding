@@ -48,7 +48,7 @@ export default function Home() {
           </div>
         </main>
         {/* Wedding Weekend Section */}
-        <section className="flex flex-col gap-6 items-center text-center max-w-[850px] mx-2 sm:mx-0 z-0">
+        <section className="flex flex-col gap-6 items-center text-center max-w-[850px] mx-2 sm:mx-0">
           <div className="text-lg max-w-prose bg-emerald-50/90 p-4 rounded-lg shadow">
             <h3 className="text-2xl font-swash font-bold mb-6">The Wedding Weekend</h3>
             <strong className="text-xl font-swash font-bold">
