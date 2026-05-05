@@ -95,6 +95,14 @@ export default function Home() {
               Travel & Accommodations →
             </Link>
           </div>
+          <div className="text-lg max-w-prose bg-emerald-50/90 p-4 rounded-lg shadow">
+            <Link
+              href="/things-to-do"
+              className="text-xl font-swash font-bold hover:underline underline-offset-2"
+            >
+              Things to do →
+            </Link>
+          </div>
         </section>
       </div>
     </div>
