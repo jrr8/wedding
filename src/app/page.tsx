@@ -59,6 +59,8 @@ export default function Home() {
             5-8pm <br></br>
             <a href="https://www.theridgebymillhouse.com/">The Ridge by Mill House</a>
             <br></br>
+            387 South St, Highland, NY 12528
+            <br></br>
             <br></br>
             Cocktail-style party on the patio. <br />
             Dress casually, this is a comfortable affair with views <br />
