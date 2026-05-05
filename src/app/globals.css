@@ -10,8 +10,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-purple-900: #310d5a;
-  --font-sans: var(--font-delius);
-  --font-swash: var(--font-delius-swash);
+  --font-sans: var(--font-quicksand);
 }
 
 @media (prefers-color-scheme: dark) {

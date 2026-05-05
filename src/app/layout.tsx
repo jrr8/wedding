@@ -1,19 +1,14 @@
 import { RSVPProvider } from "@/components/RSVPModal/RSVPContext";
 import type { Metadata, Viewport } from "next";
-import { Delius_Swash_Caps, Delius } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
 
-const deliusSwash = Delius_Swash_Caps({
+const quicksand = Quicksand({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-delius-swash",
+  variable: "--font-quicksand",
 });
 
-const deliusRegular = Delius({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-delius",
-});
 
 export const metadata: Metadata = {
   title: "Georgia + Riley 🥳",
@@ -34,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${deliusRegular.variable} ${deliusSwash.variable} antialiased`}
+      className={`${quicksand.variable} antialiased`}
     >
       <body>
         <RSVPProvider>{children}</RSVPProvider>
