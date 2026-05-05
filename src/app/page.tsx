@@ -57,11 +57,12 @@ export default function Home() {
             <br />
             May 29, 2026 <br></br>
             5-8pm <br></br>
-            Kismet House
+            <a href="https://www.theridgebymillhouse.com/">The Ridge by Mill House</a>
             <br></br>
             <br></br>
-            Food, yard games, and camp fire. <br />
-            Dress casually, this is a comfortable backyard party.
+            Cocktail-style party on the patio. <br />
+            Dress casually, this is a comfortable affair with views <br />
+            of the Shawangunk ridge and local apple orchards.
             <br></br>
             <br></br>
             <strong className="text-xl font-swash font-bold">Ceremony</strong>
